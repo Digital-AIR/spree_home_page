@@ -1,0 +1,110 @@
+<%= render partial: 'spree/admin/shared/error_messages', locals: { target: @home_page } %>
+
+<div class="form-group"> 
+  <%= f.field_container :upload_video do %>
+    <%= f.label :upload_video %>
+    <%= f.file_field :upload_video %>
+    <%= link_to image_tag(main_app.url_for(@home_page.upload_video.try(:attachment))), main_app.rails_blob_url(@home_page.upload_video.attachment) if @home_page.upload_video %>
+    <%= f.error_message_on :upload_video %>
+  <% end %>
+
+  <%= f.field_container :products do %>
+    <%= f.label :product_ids, "Carousel Products" %>
+    <% if can? :modify, Spree::ProductCarousel %>
+      <%= f.select :product_ids, options_from_collection_for_select(@products, :id, :name, @home_page.product_ids),
+                                { include_hidden: true },
+                                  multiple: true,
+                                  data: { autocomplete_url_value: 'home_pages_api_v2',
+                                          autocomplete_return_attr_value: 'name',
+                                          autocomplete_multiple_value: true }, class: 'select2'%>
+    <% elsif @home_page.products.any? %>
+      <ul class="text_list">
+        <% @home_page.products.each do |product| %>
+          <li><%= product.name %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <div class="alert alert-info"><%= Spree.t(:no_resource_found, resource: :products) %></div>
+    <% end %>
+  <% end %>
+
+    <%= f.field_container :top_products do %>
+    <%= f.label :top_product_ids, "Top Products" %>
+    <% if can? :modify, Spree::ProductCarousel %>
+      <%= f.select :top_product_ids, options_from_collection_for_select(@products, :id, :name, @home_page.top_product_ids),
+                                { include_hidden: true },
+                                  multiple: true,
+                                  data: { autocomplete_url_value: 'home_pages_api_v2',
+                                          autocomplete_return_attr_value: 'name',
+                                          autocomplete_multiple_value: true }, class: 'select2'%>
+    <% elsif @home_page.top_products.any? %>
+      <ul class="text_list">
+        <% @home_page.top_products.each do |product| %>
+          <li><%= product.name %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <div class="alert alert-info"><%= Spree.t(:no_resource_found, resource: :top_products) %></div>
+    <% end %>
+  <% end %>
+
+  <%= f.field_container :top_brand_vendor do %>
+    <%= f.label :top_brand_vendor_id %>
+    <%= f.collection_select(:top_brand_vendor_id, @vendors, :id, :name, { include_blank: Spree.t('match_choices.none') }, { class: 'select2'}, ) %>
+    <%= f.error_message_on :top_brand_vendor_id %>
+  <% end %>
+
+  <%= f.field_container :top_brand_vendor_video do %>
+    <%= f.label :top_brand_vendor_video_id %>
+    <%= f.collection_select(:top_brand_vendor_video_id, @top_brand_vendor_videos, :id, :name, { include_blank: Spree.t('match_choices.none') }, { class: 'select2' }) %>
+    <%= f.error_message_on :top_brand_vendor_video_id %>
+  <% end %>
+
+  <%= f.field_container :top_brand_vendor_video_review do %>
+    <%= f.label :top_brand_vendor_video_review_id %>
+    <%= f.collection_select(:top_brand_vendor_video_review_id, @top_brand_vendor_video_reviews, :id, :title, { include_blank: Spree.t('match_choices.none') }, { class: 'select2' }) %>
+    <%= f.error_message_on :top_brand_vendor_video_review_id %>
+  <% end %>
+
+
+
+  <%= f.field_container :new_arrival_vendor do %>
+    <%= f.label :new_arrival_vendor_id %>
+    <%= f.collection_select(:new_arrival_vendor_id, @vendors, :id, :name, { include_blank: Spree.t('match_choices.none') }, { class: 'select2' }) %>
+    <%= f.error_message_on :new_arrival_vendor_id %>
+  <% end %>
+
+  <%= f.field_container :new_arrival_vendor_video do %>
+    <%= f.label :new_arrival_vendor_video_id %>
+    <%= f.collection_select(:new_arrival_vendor_video_id, @new_arrival_vendor_videos, :id, :name, { include_blank: Spree.t('match_choices.none') }, { class: 'select2' }) %>
+    <%= f.error_message_on :new_arrival_vendor_video_id %>
+  <% end %>
+
+  <%= f.field_container :new_arrival_vendor_video_review do %>
+    <%= f.label :new_arrival_vendor_video_review_id %>
+    <%= f.collection_select(:new_arrival_vendor_video_review_id, @new_arrival_vendor_video_reviews, :id, :title, { include_blank: Spree.t('match_choices.none') }, { class: 'select2' }) %>
+    <%= f.error_message_on :new_arrival_vendor_video_review_id %>
+  <% end %>
+
+  <%= f.field_container :video_products do %>
+    <%= f.label :video_product_ids, "Video Products" %>
+    <% if can? :modify, Spree::ProductCarousel %>
+      <%= f.select :video_product_ids, options_from_collection_for_select(@products, :id, :name, @home_page.video_product_ids),
+                                { include_hidden: true },
+                                  multiple: true,
+                                  data: { autocomplete_url_value: 'home_pages_api_v2',
+                                          autocomplete_return_attr_value: 'name',
+                                          autocomplete_multiple_value: true }, class: 'select2'%>
+    <% elsif @home_page.video_products.any? %>
+      <ul class="text_list">
+        <% @home_page.video_products.each do |product| %>
+          <li><%= product.name %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <div class="alert alert-info"><%= Spree.t(:no_resource_found, resource: :video_products) %></div>
+    <% end %>
+  <% end %>
+
+
+</div>
