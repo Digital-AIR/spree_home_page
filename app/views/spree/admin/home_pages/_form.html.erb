@@ -56,7 +56,7 @@
 
   <%= f.field_container :top_brand_vendor_video do %>
     <%= f.label :top_brand_vendor_video_id %>
-    <%= f.collection_select(:top_brand_vendor_video_id, @top_brand_vendor_videos, :id, :name, { include_blank: Spree.t('match_choices.none') }, { class: 'select2' }) %>
+    <%= f.collection_select(:top_brand_vendor_video_id, Spree::Video.all.where(vendor_id: :top_brand_vendor_id), :id, :name, { include_blank: Spree.t('match_choices.none') }, { class: 'select2' }) %>
     <%= f.error_message_on :top_brand_vendor_video_id %>
   <% end %>
 

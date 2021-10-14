@@ -49,6 +49,10 @@ module Spree
 
         end
 
+        def filter_videos_by_vendor
+          @filtered_video = Video.where(vendor_id: params[:selected_vendor])
+        end
+
     end
   end
 end
