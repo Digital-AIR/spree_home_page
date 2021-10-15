@@ -9,6 +9,7 @@ module Spree
       def edit
       end
 
+      
       # PATCH/PUT /home_pages/1
       def update
         if permitted_resource_params[:upload_video]
@@ -40,7 +41,7 @@ module Spree
         def load_data
           @products = Product.order(:name)       
           @vendors = Vendor.order(:name)
-          @top_brand_vendor_videos = Video.order(:name)
+          @top_brand_vendor_videos = Video.order(:name).where(vendor_id: @home_page.top_brand_vendor_id)
 
           # videos.joins(:taxons).where(spree_video_taxons: {taxon_id: taxons})
           @top_brand_vendor_video_reviews = VideoReview.order(:title)

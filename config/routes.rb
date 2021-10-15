@@ -2,6 +2,7 @@ Spree::Core::Engine.add_routes do
   # Add your extension routes here
   namespace :admin do
   	resources :home_pages, only: [:edit, :update]
+    get 'filtervideosbyvendor' => 'filterforhomepage#filtervideosbyvendor'
   end
 
   namespace :api, defaults: { format: 'json' } do
