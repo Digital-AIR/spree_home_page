@@ -108,3 +108,27 @@
 
 
 </div>
+
+<script>
+   $(function () {
+  
+  $("select#home_page_top_brand_vendor_id").on("change", function () {
+    $.ajax({
+      url: "/admin/filtervideosbyvendor",
+      type: "GET",
+      data: { vendor_id: $("select#home_page_top_brand_vendor_id").val() },
+    }).then((data)=>{
+      let contactSelect = document.querySelector('#home_page_top_brand_vendor_video_id')
+      const noneOption = contactSelect.options[0]
+      contactSelect.innerHTML = ''
+      contactSelect.options[0] = noneOption;
+      data.map((model, i) => {
+        
+        contactSelect.options[i+1] = new Option(model.name, model.id);
+      })
+
+    });
+  });
+});
+
+</script>
