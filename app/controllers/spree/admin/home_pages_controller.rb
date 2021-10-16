@@ -42,11 +42,12 @@ module Spree
           @products = Product.order(:name)       
           @vendors = Vendor.order(:name)
           @top_brand_vendor_videos = Video.order(:name).where(vendor_id: @home_page.top_brand_vendor_id)
+          @top_brand_vendor_video_reviews = VideoReview.order(:title).where(video_id: @home_page.top_brand_vendor_video_id)
 
-          # videos.joins(:taxons).where(spree_video_taxons: {taxon_id: taxons})
-          @top_brand_vendor_video_reviews = VideoReview.order(:title)
-          @new_arrival_vendor_videos = Video.order(:name)
-          @new_arrival_vendor_video_reviews = VideoReview.order(:title)
+          @new_arrival_vendor_videos = Video.order(:name).where(vendor_id: @home_page.new_arrival_vendor_id)
+          @new_arrival_vendor_video_reviews = VideoReview.order(:title).where(video_id: @home_page.new_arrival_vendor_video_id)
+
+          @new_arrival_vendor_video_product = Product.order(:name).joins(:video_primary_product).where(spree_videos: {id: @home_page.new_arrival_vendor_video_id}) + Product.order(:name).joins(:videos).where(spree_video_secondary_products: {video_id: @home_page.new_arrival_vendor_video_id})
 
         end
 

@@ -10,9 +10,6 @@ class Spree::HomePage < ActiveRecord::Base
     has_one :upload_video, as: :viewable, dependent: :destroy, class_name: 'Spree::HomePageUploadVideo'
     validates_associated :upload_video
 
-    has_many :product_carousels, class_name: 'Spree::ProductCarousel'
-    has_many :products, through: :product_carousels, class_name: 'Spree::Product'
-
     has_many :video_product_carousels, class_name: 'Spree::VideoProductCarousel'
     has_many :video_products, through: :video_product_carousels, class_name: 'Spree::Product'
 

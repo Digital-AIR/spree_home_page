@@ -8,29 +8,9 @@
     <%= f.error_message_on :upload_video %>
   <% end %>
 
-  <%= f.field_container :products do %>
-    <%= f.label :product_ids, "Carousel Products" %>
-    <% if can? :modify, Spree::ProductCarousel %>
-      <%= f.select :product_ids, options_from_collection_for_select(@products, :id, :name, @home_page.product_ids),
-                                { include_hidden: true },
-                                  multiple: true,
-                                  data: { autocomplete_url_value: 'home_pages_api_v2',
-                                          autocomplete_return_attr_value: 'name',
-                                          autocomplete_multiple_value: true }, class: 'select2'%>
-    <% elsif @home_page.products.any? %>
-      <ul class="text_list">
-        <% @home_page.products.each do |product| %>
-          <li><%= product.name %></li>
-        <% end %>
-      </ul>
-    <% else %>
-      <div class="alert alert-info"><%= Spree.t(:no_resource_found, resource: :products) %></div>
-    <% end %>
-  <% end %>
-
     <%= f.field_container :top_products do %>
-    <%= f.label :top_product_ids, "Top Products" %>
-    <% if can? :modify, Spree::ProductCarousel %>
+    <%= f.label :top_product_ids, "Top products" %>
+    <% if can? :modify, Spree::TopProductCarousel %>
       <%= f.select :top_product_ids, options_from_collection_for_select(@products, :id, :name, @home_page.top_product_ids),
                                 { include_hidden: true },
                                   multiple: true,
@@ -87,9 +67,9 @@
   <% end %>
 
   <%= f.field_container :video_products do %>
-    <%= f.label :video_product_ids, "Video Products" %>
-    <% if can? :modify, Spree::ProductCarousel %>
-      <%= f.select :video_product_ids, options_from_collection_for_select(@products, :id, :name, @home_page.video_product_ids),
+    <%= f.label :video_product_ids, "New arrival vendor video products" %>
+    <% if can? :modify, Spree::VideoProductCarousel %>
+      <%= f.select :video_product_ids, options_from_collection_for_select(@new_arrival_vendor_video_product, :id, :name, @home_page.video_product_ids),
                                 { include_hidden: true },
                                   multiple: true,
                                   data: { autocomplete_url_value: 'home_pages_api_v2',
@@ -114,7 +94,7 @@
   
   $("select#home_page_top_brand_vendor_id").on("change", function () {
     $.ajax({
-      url: "/admin/filtervideosbyvendor",
+      url: "/admin/filtervideosbytopbrandvendor",
       type: "GET",
       data: { vendor_id: $("select#home_page_top_brand_vendor_id").val() },
     }).then((data)=>{
@@ -129,6 +109,76 @@
 
     });
   });
+
+  $("select#home_page_top_brand_vendor_video_id").on("change", function () {
+    $.ajax({
+      url: "/admin/filterreviewsbytopbrandvendorvideo",
+      type: "GET",
+      data: { video_id: $("select#home_page_top_brand_vendor_video_id").val() },
+    }).then((data)=>{
+      let contactSelect = document.querySelector('#home_page_top_brand_vendor_video_review_id')
+      const noneOption = contactSelect.options[0]
+      contactSelect.innerHTML = ''
+      contactSelect.options[0] = noneOption;
+      data.map((model, i) => {
+        
+        contactSelect.options[i+1] = new Option(model.title, model.id);
+      })
+
+    });
+  });
+
+  $("select#home_page_new_arrival_vendor_id").on("change", function () {
+    $.ajax({
+      url: "/admin/filtervideosbynewarrivalvendor",
+      type: "GET",
+      data: { vendor_id: $("select#home_page_new_arrival_vendor_id").val() },
+    }).then((data)=>{
+      let contactSelect = document.querySelector('#home_page_new_arrival_vendor_video_id')
+      const noneOption = contactSelect.options[0]
+      contactSelect.innerHTML = ''
+      contactSelect.options[0] = noneOption;
+      data.map((model, i) => {
+        
+        contactSelect.options[i+1] = new Option(model.name, model.id);
+      })
+
+    });
+  });
+
+  $("select#home_page_new_arrival_vendor_video_id").on("change", function () {
+    $.ajax({
+      url: "/admin/filterreviewsbynewarrivalvendorvideo",
+      type: "GET",
+      data: { video_id: $("select#home_page_new_arrival_vendor_video_id").val() },
+    }).then((data)=>{
+      let contactSelect = document.querySelector('#home_page_new_arrival_vendor_video_review_id')
+      const noneOption = contactSelect.options[0]
+      contactSelect.innerHTML = ''
+      contactSelect.options[0] = noneOption;
+      data.map((model, i) => {
+        
+        contactSelect.options[i+1] = new Option(model.title, model.id);
+      })
+
+    });
+
+    $.ajax({
+      url: "/admin/filterproductbynewarrivalvendorvideo",
+      type: "GET",
+      data: { video_id: $("select#home_page_new_arrival_vendor_video_id").val() },
+    }).then((data)=>{
+      let contactSelect = document.querySelector('#home_page_video_product_ids')
+      contactSelect.innerHTML = ''
+      data.map((model, i) => {
+        
+        contactSelect.options[i+1] = new Option(model.name, model.id);
+      })
+
+    });
+  });
+
+
 });
 
 </script>
