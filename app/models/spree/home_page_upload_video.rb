@@ -1,4 +1,4 @@
-  module Spree
+module Spree
   class HomePageUploadVideo < Asset
     include Configuration::ActiveStorage
     include Rails.application.routes.url_helpers
@@ -13,6 +13,10 @@
           height: height
         }
       end
+    end
+
+    def original_url
+      polymorphic_path(attachment, only_path: true)
     end
   end
 end
