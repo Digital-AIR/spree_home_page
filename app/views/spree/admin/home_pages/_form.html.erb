@@ -3,8 +3,8 @@
 <div class="form-group"> 
   <%= f.field_container :upload_video do %>
     <%= f.label :upload_video %>
-    <%= f.file_field :upload_video %>
-    <%= link_to image_tag(main_app.url_for(@home_page.upload_video.try(:attachment))), main_app.rails_blob_url(@home_page.upload_video.attachment) if @home_page.upload_video %>
+    <%= f.file_field :upload_video %><br><br>
+    <%= video_tag(main_app.url_for(@home_page.upload_video.try(:attachment)), controls: true )if @home_page.upload_video %>
     <%= f.error_message_on :upload_video %>
   <% end %>
 
