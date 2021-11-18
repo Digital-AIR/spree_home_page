@@ -3,7 +3,7 @@
 <div class="form-group"> 
   <%= f.field_container :upload_video do %>
     <%= f.label :upload_video %>
-    <%= f.file_field :upload_video %><br><br>
+    <%= f.file_field :upload_video, accept: "video/*" %><br><br>
     <%= video_tag(main_app.url_for(@home_page.upload_video.try(:attachment)), controls: true )if @home_page.upload_video %>
     <%= f.error_message_on :upload_video %>
   <% end %>

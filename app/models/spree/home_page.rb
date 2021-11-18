@@ -9,7 +9,8 @@ class Spree::HomePage < ActiveRecord::Base
 
     has_one :upload_video, as: :viewable, dependent: :destroy, class_name: 'Spree::HomePageUploadVideo'
     validates_associated :upload_video
-
+    has_one :thumbnail, as: :viewable, dependent: :destroy, class_name: 'Spree::VideoThumbnail'
+    
     has_many :video_product_carousels, class_name: 'Spree::VideoProductCarousel'
     has_many :video_products, through: :video_product_carousels, class_name: 'Spree::Product'
 
