@@ -15,7 +15,9 @@ module Spree
         if permitted_resource_params[:upload_video]
           @home_page.create_upload_video(attachment: permitted_resource_params[:upload_video])
           IO.copy_stream(permitted_resource_params[:upload_video].path, 'tmp/' + permitted_resource_params[:upload_video].original_filename.to_s)
-          HomePageVideoWorker.perform_async(@home_page.id, permitted_resource_params[:upload_video].original_filename.to_s, permitted_resource_params[:upload_video].content_type.to_s)
+          Spree::HomePageVideos::QueueRequests.call(video_id:@home_page.id, 
+                        video_name:permitted_resource_params[:upload_video].original_filename.to_s,content_type: permitted_resource_params[:upload_video].content_type.to_s)
+          # HomePageVideoWorker.perform_async(@home_page.id, permitted_resource_params[:upload_video].original_filename.to_s, permitted_resource_params[:upload_video].content_type.to_s)
         end
 
         if @home_page.update(home_page_params.except(:upload_video))
